@@ -149,22 +149,22 @@ object TPCDSQueryBenchmark extends Logging {
       val benchmark = new Benchmark(s"TPCDS Snappy", numRows, minNumIters = minNumIters)
 
       val queryDF = spark.sql(queryString)
-      val regex = "[^a-zA-Z0-9]".r
-      val finalDF = queryDF.select(queryDF.columns.map(name => col(name).as(regex.replaceAllIn(name, "_"))) : _*)
-      finalDF.printSchema()
+      //val regex = "[^a-zA-Z0-9]".r
+      //val finalDF = queryDF.select(queryDF.columns.map(name => col(name).as(regex.replaceAllIn(name, "_"))) : _*)
+      //finalDF.printSchema()
 
-      benchmark.addCase(s"$name$nameSuffix") { _ =>
-        finalDF.cache().take(100)
+      benchmark.addCase(s"$name$nameSuffix",1) { _ =>
+        spark.sql(queryString).collect()
       }
-      println(s"\n\n===== TPCDS QUERY BENCHMARK OUTPUT FOR $name =====\n")
-      logInfo(s"\n\n===== TPCDS QUERY BENCHMARK OUTPUT FOR $name =====\n")
+      //println(s"\n\n===== TPCDS QUERY BENCHMARK OUTPUT FOR $name =====\n")
+      //logInfo(s"\n\n===== TPCDS QUERY BENCHMARK OUTPUT FOR $name =====\n")
       benchmark.run()
-      println(s"\n\n===== FINISHED $name =====\n")
-      logInfo(s"\n\n===== FINISHED $name =====\n")
-      println(s"\n\n===== TPCDS QUERY WRITING OUTPUT  : $outDataLocation / $name$nameSuffix =====\n")
-      logInfo(s"\n\n===== TPCDS QUERY WRITING OUTPUT  : $outDataLocation / $name$nameSuffix =====\n")
-      finalDF.write.mode(SaveMode.Ignore).parquet(outDataLocation + s"/$name$nameSuffix")
-      finalDF.unpersist()
+      //println(s"\n\n===== FINISHED $name =====\n")
+      //logInfo(s"\n\n===== FINISHED $name =====\n")
+      //println(s"\n\n===== TPCDS QUERY WRITING OUTPUT  : $outDataLocation / $name$nameSuffix =====\n")
+      //logInfo(s"\n\n===== TPCDS QUERY WRITING OUTPUT  : $outDataLocation / $name$nameSuffix =====\n")
+      //finalDF.write.mode(SaveMode.Ignore).parquet(outDataLocation + s"/$name$nameSuffix")
+      //finalDF.unpersist()
     }
   }
 
