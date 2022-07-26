@@ -148,7 +148,7 @@ object TPCDSQueryBenchmark extends Logging {
       val minNumIters = 1
       val benchmark = new Benchmark(s"TPCDS Snappy", numRows, minNumIters = minNumIters)
 
-      val queryDF = spark.sql(queryString)
+      //val queryDF = spark.sql(queryString)
       //val regex = "[^a-zA-Z0-9]".r
       //val finalDF = queryDF.select(queryDF.columns.map(name => col(name).as(regex.replaceAllIn(name, "_"))) : _*)
       //finalDF.printSchema()
